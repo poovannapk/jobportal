@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { CheckCircle2, X } from "lucide-react";
+import placdLogo from "../assets/placd-logo.jpg";
 
 export const card = "rounded-2xl border border-slate-200 bg-white shadow-sm";
 export const primaryButton =
@@ -84,6 +85,25 @@ export function MetricPanel({ icon, label, value, detail }: { icon: ReactNode; l
 
 export function Logo({ label, large = false }: { label: string; large?: boolean }) {
   return <div className={`grid place-items-center rounded-2xl bg-[#e8f3ee] font-black text-teal-900 ${large ? "h-16 w-16" : "h-12 w-12"}`}>{label}</div>;
+}
+
+export function BrandLogo({ large = false, dark = false }: { large?: boolean; dark?: boolean }) {
+  const width = large ? 160 : 128;
+  const height = large ? 56 : 40;
+
+  return (
+    <span className={`block overflow-hidden rounded bg-white ${dark ? "ring-1 ring-white/20" : ""} ${large ? "h-14 w-40" : "h-10 w-32"}`}>
+      <img
+        className="h-full w-full object-contain"
+        src={placdLogo}
+        alt="Placd"
+        width={width}
+        height={height}
+        decoding="async"
+        loading="eager"
+      />
+    </span>
+  );
 }
 
 export function Avatar({ label, large = false }: { label: string; large?: boolean }) {

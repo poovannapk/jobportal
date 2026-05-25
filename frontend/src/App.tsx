@@ -1,4 +1,4 @@
-﻿import { useMemo, useState, type Dispatch, type ReactNode, type SetStateAction } from "react";
+import { useEffect, useMemo, useState, type Dispatch, type ReactNode, type SetStateAction } from "react";
 import {
   Activity,
   Bell,
@@ -50,6 +50,7 @@ import { initialAlerts, initialCandidates, initialCredits, initialJobs, initialP
 import type { Alert, Application, AuthUser, Candidate, Credits, EmployeeView, EmployerView, Job, Persona, Profile, Stage } from "./types.js";
 import {
   Avatar,
+  BrandLogo,
   CompactList,
   EmptyState,
   Input,
@@ -385,6 +386,112 @@ export function App() {
   );
 }
 
+type HeaderMenuColumn = { title: string; links: Array<[string, () => void, string?]> };
+
+function jobsMenuColumns(setEmployeeView: (view: EmployeeView) => void): HeaderMenuColumn[] {
+  return [
+    {
+      title: "Popular categories",
+      links: [
+        ["IT jobs", () => setEmployeeView("jobs")],
+        ["Sales jobs", () => setEmployeeView("jobs")],
+        ["Marketing jobs", () => setEmployeeView("jobs")],
+        ["Data Science jobs", () => setEmployeeView("jobs")],
+        ["HR jobs", () => setEmployeeView("jobs")],
+        ["Engineering jobs", () => setEmployeeView("jobs")]
+      ]
+    },
+    {
+      title: "Jobs in demand",
+      links: [
+        ["Fresher jobs", () => setEmployeeView("jobs")],
+        ["MNC jobs", () => setEmployeeView("jobs")],
+        ["Remote jobs", () => setEmployeeView("jobs")],
+        ["Work from home jobs", () => setEmployeeView("jobs")],
+        ["Walk-in jobs", () => setEmployeeView("jobs")],
+        ["Part-time jobs", () => setEmployeeView("jobs")]
+      ]
+    },
+    {
+      title: "Jobs by location",
+      links: [
+        ["Jobs in Delhi", () => setEmployeeView("jobs")],
+        ["Jobs in Mumbai", () => setEmployeeView("jobs")],
+        ["Jobs in Bangalore", () => setEmployeeView("jobs")],
+        ["Jobs in Hyderabad", () => setEmployeeView("jobs")],
+        ["Jobs in Chennai", () => setEmployeeView("jobs")],
+        ["Jobs in Pune", () => setEmployeeView("jobs")]
+      ]
+    }
+  ];
+}
+
+function companiesMenuColumns(setEmployeeView: (view: EmployeeView) => void): HeaderMenuColumn[] {
+  return [
+    {
+      title: "Explore categories",
+      links: [
+        ["Unicorn", () => setEmployeeView("home")],
+        ["MNC", () => setEmployeeView("home")],
+        ["Startup", () => setEmployeeView("home")],
+        ["Product based", () => setEmployeeView("home")],
+        ["Internet", () => setEmployeeView("home")]
+      ]
+    },
+    {
+      title: "Explore collections",
+      links: [
+        ["Top companies", () => setEmployeeView("home")],
+        ["IT companies", () => setEmployeeView("home")],
+        ["Fintech companies", () => setEmployeeView("home")],
+        ["Sponsored companies", () => setEmployeeView("home")],
+        ["Featured companies", () => setEmployeeView("home")]
+      ]
+    },
+    {
+      title: "Research companies by Ambitionbox",
+      links: [
+        ["Interview questions", () => setEmployeeView("applications")],
+        ["Company salaries", () => setEmployeeView("home")],
+        ["Company reviews", () => setEmployeeView("home")],
+        ["Salary Calculator", () => setEmployeeView("profile")]
+      ]
+    }
+  ];
+}
+
+function servicesMenuColumns(setEmployeeView: (view: EmployeeView) => void): HeaderMenuColumn[] {
+  return [
+    {
+      title: "Resume writing",
+      links: [
+        ["Text resume", () => setEmployeeView("profile")],
+        ["Visual resume", () => setEmployeeView("profile")],
+        ["Resume critique", () => setEmployeeView("profile")],
+        ["Jobs4u", () => setEmployeeView("jobs")],
+        ["Priority applicant", () => setEmployeeView("jobs")],
+        ["Contact us", () => setEmployeeView("applications")]
+      ]
+    },
+    {
+      title: "Get recruiter's attention",
+      links: [
+        ["Resume display", () => setEmployeeView("profile")],
+        ["Basic & premium plans", () => setEmployeeView("profile")]
+      ]
+    },
+    {
+      title: "Free resume resources",
+      links: [
+        ["Resume maker", () => setEmployeeView("profile")],
+        ["Resume quality score", () => setEmployeeView("profile")],
+        ["Resume samples", () => setEmployeeView("profile")],
+        ["Job letter samples", () => setEmployeeView("profile")]
+      ]
+    }
+  ];
+}
+
 function Header({
   persona,
   setPersona,
@@ -410,28 +517,34 @@ function Header({
   onOpenSearch: () => void;
   onOpenProfile: () => void;
 }) {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const employeeColumns = [
+    ["Jobs", jobsMenuColumns(setEmployeeView)] as const,
+    ["Companies", companiesMenuColumns(setEmployeeView)] as const,
+    ["Services", servicesMenuColumns(setEmployeeView)] as const
+  ];
+  const employerLinks: Array<[string, () => void]> = [
+    ["Dashboard", () => setEmployerView("overview")],
+    ["Post Job", () => setEmployerView("post-job")],
+    ["Manage Jobs", () => setEmployerView("manage-jobs")],
+    ["Resdex", () => setEmployerView("resdex")],
+    ["Pipeline", () => setEmployerView("pipeline")],
+    ["Credits", () => setEmployerView("credits")],
+    ["ATS", () => setEmployerView("ats")]
+  ];
+
   return (
     <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/95 backdrop-blur">
-      <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-4 py-4">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 lg:gap-4 lg:py-4">
         <button className="flex items-center gap-2" onClick={() => (persona === "employee" ? setEmployeeView("home") : setEmployerView("overview"))}>
-          <span className="grid h-10 w-10 place-items-center rounded-xl bg-teal-700 font-black text-white">P</span>
-          <span className="text-xl font-black tracking-normal text-slate-950">Placd</span>
+          <BrandLogo />
         </button>
-        <nav className="flex flex-wrap items-center gap-6 text-base font-bold text-slate-700">
+        <nav className="hidden flex-wrap items-center gap-6 text-base font-bold text-slate-700 lg:flex">
           {persona === "employee" ? (
             <>
-              <MegaNavItem active={employeeView === "home" || employeeView === "jobs"} label="Jobs" badge="2" columns={[
-                { title: "Recommended jobs", links: [["Recommended Jobs", () => setEmployeeView("home")], ["NVites", () => setEmployeeView("jobs"), "5 New"], ["Application status", () => setEmployeeView("applications"), "19 Updates"], ["Saved jobs", () => setEmployeeView("saved")]] },
-                { title: "Explore jobs", links: [["Search jobs", () => setEmployeeView("jobs")], ["Remote jobs", () => setEmployeeView("jobs")], ["MNC jobs", () => setEmployeeView("jobs")], ["Startup jobs", () => setEmployeeView("jobs")]] }
-              ]} />
-              <MegaNavItem active={employeeView === "profile"} label="Companies" columns={[
-                { title: "Discover", links: [["Top companies", () => setEmployeeView("home")], ["Company reviews", () => setEmployeeView("home")], ["Interview questions", () => setEmployeeView("applications")]] }
-              ]} />
-              <MegaNavItem active={employeeView === "applications"} label="Services" badge="1" wide columns={[
-                { title: "Resume writing", links: [["Text resume", () => setEmployeeView("profile")], ["Visual resume", () => setEmployeeView("profile")], ["Resume critique", () => setEmployeeView("profile")], ["Jobs4u", () => setEmployeeView("jobs")]] },
-                { title: "Get recruiter's attention", links: [["Resume display", () => setEmployeeView("profile")], ["AI mock interview", () => setEmployeeView("applications")], ["Basic and premium plans", () => setEmployeeView("profile")]] },
-                { title: "Free resume resources", links: [["Resume maker", () => setEmployeeView("profile")], ["Resume quality score", () => setEmployeeView("profile")], ["Job letter samples", () => setEmployeeView("profile")], ["Promotional offer", () => setEmployeeView("jobs"), "New"]] }
-              ]} />
+              <MegaNavItem active={employeeView === "home" || employeeView === "jobs"} label="Jobs" columns={jobsMenuColumns(setEmployeeView)} />
+              <MegaNavItem active={employeeView === "profile"} label="Companies" columns={companiesMenuColumns(setEmployeeView)} wide />
+              <MegaNavItem active={employeeView === "applications"} label="Services" columns={servicesMenuColumns(setEmployeeView)} wide />
             </>
           ) : (
             <>
@@ -451,7 +564,7 @@ function Header({
             <span className="grid h-10 w-10 place-items-center rounded-full bg-teal-700 text-white"><Search size={19} /></span>
           </button>
         )}
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="hidden flex-wrap items-center gap-2 lg:flex">
           {!authUser && (
             <div className="grid grid-cols-2 rounded-full border border-slate-200 bg-slate-100 p-1">
               <button className={`rounded-full px-4 py-2 text-sm font-black ${persona === "employee" ? "bg-white text-teal-800 shadow-sm" : "text-slate-600"}`} onClick={() => setPersona("employee")}>Employee</button>
@@ -477,7 +590,48 @@ function Header({
             </>
           )}
         </div>
+        <button
+          className="grid h-11 w-11 place-items-center rounded-full border border-slate-200 bg-white text-slate-700 lg:hidden"
+          aria-expanded={mobileMenuOpen}
+          aria-label="Toggle navigation"
+          onClick={() => setMobileMenuOpen((open) => !open)}
+        >
+          <Menu size={22} />
+        </button>
       </div>
+      {mobileMenuOpen && (
+        <div className="border-t border-slate-100 bg-white px-4 py-4 lg:hidden">
+          {persona === "employee" ? (
+            <MobileHeaderMenu groups={employeeColumns} onClose={() => setMobileMenuOpen(false)} />
+          ) : (
+            <div className="grid gap-2">
+              {employerLinks.map(([label, onClick]) => (
+                <button className="rounded-xl px-3 py-3 text-left font-bold text-slate-700 hover:bg-slate-50" key={label} onClick={() => { onClick(); setMobileMenuOpen(false); }}>{label}</button>
+              ))}
+            </div>
+          )}
+          {persona === "employee" && (
+            <button className="mt-4 flex w-full items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-left font-bold text-slate-600" onClick={() => { onOpenSearch(); setMobileMenuOpen(false); }}>
+              <span>Search jobs here</span>
+              <Search size={18} />
+            </button>
+          )}
+          <div className="mt-4 grid gap-2">
+            {authUser ? (
+              persona === "employee" ? (
+                <button className={secondaryButton} onClick={() => { onOpenProfile(); setMobileMenuOpen(false); }}>{authUser.name}</button>
+              ) : (
+                <button className={secondaryButton} onClick={onLogout}>{authUser.name}</button>
+              )
+            ) : (
+              <>
+                <button className={secondaryButton} onClick={() => { onAuth("login"); setMobileMenuOpen(false); }}>Login</button>
+                <button className="rounded-full bg-[#db6b4d] px-5 py-3 font-black text-white" onClick={() => { onAuth("register"); setMobileMenuOpen(false); }}>Register</button>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </header>
   );
 }
@@ -496,6 +650,35 @@ function StatusBar({ toast, savedCount, applicationsCount }: { toast: string; sa
   );
 }
 
+function MobileHeaderMenu({ groups, onClose }: { groups: ReadonlyArray<readonly [string, HeaderMenuColumn[]]>; onClose: () => void }) {
+  return (
+    <div className="grid gap-3">
+      {groups.map(([label, columns]) => (
+        <details className="rounded-2xl border border-slate-200 bg-white" key={label}>
+          <summary className="flex cursor-pointer list-none items-center justify-between px-4 py-3 font-black text-slate-900">
+            {label}
+            <ChevronDown size={17} />
+          </summary>
+          <div className="grid gap-5 border-t border-slate-100 px-4 py-4">
+            {columns.map((column) => (
+              <section key={column.title}>
+                <h3 className="text-sm font-black text-slate-950">{column.title}</h3>
+                <div className="mt-3 grid gap-2">
+                  {column.links.map(([item, onClick]) => (
+                    <button className="rounded-lg py-1.5 text-left text-sm font-semibold text-slate-600" key={item} onClick={() => { onClick(); onClose(); }}>
+                      {item}
+                    </button>
+                  ))}
+                </div>
+              </section>
+            ))}
+          </div>
+        </details>
+      ))}
+    </div>
+  );
+}
+
 function PublicHeader({
   onLogin,
   onRegister,
@@ -507,19 +690,25 @@ function PublicHeader({
   onEmployerLogin: () => void;
   setEmployeeView: (view: EmployeeView) => void;
 }) {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const menuGroups = [
+    ["Jobs", jobsMenuColumns(setEmployeeView)] as const,
+    ["Companies", companiesMenuColumns(setEmployeeView)] as const,
+    ["Services", servicesMenuColumns(setEmployeeView)] as const
+  ];
+
   return (
     <header className="sticky top-0 z-30 border-b border-slate-100 bg-white shadow-sm">
-      <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-5 px-4 py-5">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 lg:gap-5 lg:py-5">
         <button className="flex items-center gap-3" onClick={() => setEmployeeView("home")}>
-          <span className="grid h-12 w-12 place-items-center rounded-2xl bg-teal-700 font-black text-white">P</span>
-          <span className="text-3xl font-black text-teal-800">Placd</span>
+          <BrandLogo large />
         </button>
-        <nav className="flex items-center gap-8 text-lg font-bold text-slate-700">
-          <button>Jobs</button>
-          <button>Companies</button>
-          <button>Services</button>
+        <nav className="hidden items-center gap-8 text-lg font-bold text-slate-700 lg:flex">
+          <MegaNavItem active={false} label="Jobs" columns={jobsMenuColumns(setEmployeeView)} />
+          <MegaNavItem active={false} label="Companies" columns={companiesMenuColumns(setEmployeeView)} wide />
+          <MegaNavItem active={false} label="Services" columns={servicesMenuColumns(setEmployeeView)} wide />
         </nav>
-        <div className="flex items-center gap-3">
+        <div className="hidden items-center gap-3 lg:flex">
           <button className="rounded-full border border-teal-700 px-8 py-3 font-black text-teal-800" onClick={onLogin}>Login</button>
           <button className="rounded-full bg-coral-500 px-8 py-3 font-black text-white" onClick={onRegister}>Register</button>
           <div className="group relative border-l border-slate-200 pl-4">
@@ -531,7 +720,30 @@ function PublicHeader({
             </div>
           </div>
         </div>
+        <button
+          className="grid h-11 w-11 place-items-center rounded-full border border-slate-200 bg-white text-slate-700 lg:hidden"
+          aria-expanded={mobileMenuOpen}
+          aria-label="Toggle navigation"
+          onClick={() => setMobileMenuOpen((open) => !open)}
+        >
+          <Menu size={22} />
+        </button>
       </div>
+      {mobileMenuOpen && (
+        <div className="border-t border-slate-100 bg-white px-4 py-4 lg:hidden">
+          <MobileHeaderMenu groups={menuGroups} onClose={() => setMobileMenuOpen(false)} />
+          <div className="mt-4 grid grid-cols-2 gap-2">
+            <button className="rounded-full border border-teal-700 px-4 py-3 font-black text-teal-800" onClick={() => { onLogin(); setMobileMenuOpen(false); }}>Login</button>
+            <button className="rounded-full bg-coral-500 px-4 py-3 font-black text-white" onClick={() => { onRegister(); setMobileMenuOpen(false); }}>Register</button>
+          </div>
+          <div className="mt-4 border-t border-slate-100 pt-4">
+            <button className="flex w-full items-center justify-between rounded-xl px-3 py-3 text-left font-bold text-slate-700 hover:bg-slate-50" onClick={() => { onEmployerLogin(); setMobileMenuOpen(false); }}>
+              <span>For employers</span>
+              <ChevronDown className="-rotate-90" size={16} />
+            </button>
+          </div>
+        </div>
+      )}
     </header>
   );
 }
@@ -551,10 +763,10 @@ function PublicLanding({
 }) {
   return (
     <main className="overflow-hidden bg-white">
-      <section className="bg-gradient-to-b from-white to-[#fbfbff] px-4 py-20 text-center">
-        <h1 className="text-4xl font-black tracking-normal text-slate-950 md:text-6xl">Find your dream job now</h1>
-        <p className="mt-4 text-2xl text-slate-900">5 lakh+ jobs for you to explore</p>
-        <div className="mx-auto mt-12 max-w-5xl">
+      <section className="bg-gradient-to-b from-white to-[#fbfbff] px-4 py-10 text-center md:py-20">
+        <h1 className="text-3xl font-black tracking-normal text-slate-950 md:text-6xl">Find your dream job now</h1>
+        <p className="mt-3 text-lg text-slate-900 md:mt-4 md:text-2xl">5 lakh+ jobs for you to explore</p>
+        <div className="mx-auto mt-8 max-w-5xl md:mt-12">
           <SearchBar query={query} location={location} setQuery={setQuery} setLocation={setLocation} onSearch={onSearch} compact />
         </div>
         <div className="mt-8 flex flex-wrap justify-center gap-3">
@@ -563,21 +775,38 @@ function PublicLanding({
           ))}
         </div>
       </section>
+      <DeferredPublicLandingContent setQuery={setQuery} onSearch={onSearch} />
+    </main>
+  );
+}
+
+function DeferredPublicLandingContent({ setQuery, onSearch }: { setQuery: (value: string) => void; onSearch: () => void }) {
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    const id = window.requestAnimationFrame(() => setReady(true));
+    return () => window.cancelAnimationFrame(id);
+  }, []);
+
+  if (!ready) return null;
+
+  return (
+    <>
       <PublicCategoryGrid setQuery={setQuery} onSearch={onSearch} />
       <PublicCompanies setQuery={setQuery} onSearch={onSearch} />
       <SponsoredCompanies setQuery={setQuery} onSearch={onSearch} />
       <InterviewPrep />
       <AppDownloadBand />
-    </main>
+    </>
   );
 }
 
 function PublicCategoryGrid({ setQuery, onSearch }: { setQuery: (value: string) => void; onSearch: () => void }) {
   const categories = ["Remote", "MNC", "Supply Chain", "Software & IT", "HR", "Fresher", "Startup", "Analytics", "Fortune 500", "Banking", "Project Mgmt"];
   return (
-    <section className="mx-auto grid max-w-7xl gap-5 px-4 py-10 sm:grid-cols-2 lg:grid-cols-5">
+    <section className="mx-auto grid max-w-7xl grid-cols-2 gap-3 px-4 py-8 sm:grid-cols-2 md:gap-5 lg:grid-cols-5 lg:py-10">
       {categories.map((category) => (
-        <button className="flex min-h-20 items-center justify-between rounded-2xl border border-slate-200 bg-white px-6 text-left text-lg font-black shadow-sm" key={category} onClick={() => { setQuery(category); onSearch(); }}>
+        <button className="flex min-h-16 items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white px-4 text-left text-sm font-black shadow-sm md:min-h-20 md:px-6 md:text-lg" key={category} onClick={() => { setQuery(category); onSearch(); }}>
           <span>{category}</span><ChevronDown className="-rotate-90 text-slate-500" size={18} />
         </button>
       ))}
@@ -701,8 +930,7 @@ function HeaderSearchOverlay({
       <section className="border-b border-slate-200 bg-white px-4 py-8 shadow-xl" onClick={(event) => event.stopPropagation()}>
         <div className="mx-auto flex max-w-7xl items-center gap-8">
           <button className="hidden items-center gap-3 md:flex" onClick={onClose}>
-            <span className="grid h-12 w-12 place-items-center rounded-2xl bg-teal-700 font-black text-white">P</span>
-            <span className="text-3xl font-black text-teal-800">Placd</span>
+            <BrandLogo large />
           </button>
           <form className="grid flex-1 gap-3 rounded-full border border-slate-200 bg-white p-3 shadow-lg shadow-slate-200/70 lg:grid-cols-[minmax(0,1.25fr)_220px_minmax(0,0.8fr)_auto] lg:items-center" onSubmit={(event) => {
             event.preventDefault();
@@ -1433,7 +1661,7 @@ function AuthModal({ mode, persona, onClose, onSwitch, onSubmit }: { mode: "logi
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto bg-[#f5f7fb] p-4">
       <div className="mx-auto flex max-w-7xl items-center justify-between py-5">
-        <button className="flex items-center gap-2" onClick={onClose}><span className="grid h-10 w-10 place-items-center rounded-xl bg-teal-700 font-black text-white">P</span><span className="text-2xl font-black">Placd</span></button>
+        <button className="flex items-center gap-2" onClick={onClose}><BrandLogo /></button>
         <button className="text-lg" onClick={() => onSwitch("login")}>Already Registered? <span className="font-black text-teal-800">Login here</span></button>
       </div>
       <div className="mx-auto grid max-w-7xl gap-10 py-8 lg:grid-cols-[380px_minmax(0,1fr)]">
@@ -1486,17 +1714,17 @@ function SearchBar({ query, location, setQuery, setLocation, onSearch, compact =
   const [experience, setExperience] = useState("Experience");
   const experienceOptions = ["Experience", "0-2 yrs", "3-5 yrs", "6-10 yrs", "10+ yrs"];
   return (
-    <form className={`mt-6 rounded-[28px] border border-slate-200 bg-white p-3 shadow-xl shadow-slate-200/70 ${compact ? "mt-0" : ""}`} onSubmit={(event) => { event.preventDefault(); onSearch(); }}>
+    <form className={`mt-6 rounded-2xl border border-slate-200 bg-white p-3 shadow-xl shadow-slate-200/70 md:rounded-[28px] ${compact ? "mt-0" : ""}`} onSubmit={(event) => { event.preventDefault(); onSearch(); }}>
       <div className="grid gap-3 lg:grid-cols-[minmax(0,1.3fr)_180px_minmax(0,1fr)_auto] lg:items-center">
-        <label className="flex min-h-14 items-center gap-3 rounded-2xl bg-slate-50 px-4"><Search className="text-teal-700" size={20} /><input className="bg-transparent text-base outline-none" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Skills, designation, companies" /></label>
+        <label className="flex min-h-14 items-center gap-3 rounded-2xl bg-slate-50 px-4"><Search className="shrink-0 text-teal-700" size={20} /><input className="min-w-0 flex-1 bg-transparent text-base outline-none" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Skills, designation, companies" /></label>
         <label className="relative flex min-h-14 items-center rounded-2xl bg-slate-50 px-4">
           <select className="w-full appearance-none bg-transparent font-bold text-slate-700 outline-none" value={experience} onChange={(event) => setExperience(event.target.value)}>
             {experienceOptions.map((option) => <option key={option}>{option}</option>)}
           </select>
           <ChevronDown className="pointer-events-none absolute right-4 text-slate-500" size={17} />
         </label>
-        <label className="flex min-h-14 items-center gap-3 rounded-2xl bg-slate-50 px-4"><MapPin className="text-teal-700" size={20} /><input className="bg-transparent text-base outline-none" value={location} onChange={(event) => setLocation(event.target.value)} placeholder="Location" /></label>
-        <button className={coralButton} type="submit">Search</button>
+        <label className="flex min-h-14 items-center gap-3 rounded-2xl bg-slate-50 px-4"><MapPin className="shrink-0 text-teal-700" size={20} /><input className="min-w-0 flex-1 bg-transparent text-base outline-none" value={location} onChange={(event) => setLocation(event.target.value)} placeholder="Location" /></label>
+        <button className={`${coralButton} w-full lg:w-auto`} type="submit">Search</button>
       </div>
     </form>
   );
@@ -1723,8 +1951,7 @@ function Footer({
       <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 lg:grid-cols-[1.2fr_1fr_1fr_1fr]">
         <section>
           <button className="flex items-center gap-2" onClick={() => goEmployee("home")}>
-            <span className="grid h-10 w-10 place-items-center rounded-xl bg-teal-600 font-black text-white">P</span>
-            <span className="text-xl font-black">Placd</span>
+            <BrandLogo dark />
           </button>
           <p className="mt-4 max-w-sm text-sm leading-6 text-slate-300">A dual-sided hiring marketplace for job seekers, recruiters, Resdex sourcing, job applications, credits, and ATS integrations.</p>
           <div className="mt-5 flex flex-wrap gap-2">
@@ -1782,8 +2009,7 @@ function EmployeeFooter({ goEmployee }: { goEmployee: (view: EmployeeView) => vo
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 lg:grid-cols-[220px_1fr_1fr_1fr_380px]">
         <section>
           <button className="flex items-center gap-3" onClick={() => goEmployee("home")}>
-            <span className="grid h-12 w-12 place-items-center rounded-2xl bg-teal-600 font-black text-white">P</span>
-            <span className="text-3xl font-black">Placd</span>
+            <BrandLogo large dark />
           </button>
           <h3 className="mt-14 font-black">Connect with us</h3>
           <div className="mt-4 flex gap-5 text-slate-300">
@@ -1863,7 +2089,7 @@ function EmployerFooter({ goEmployer }: { goEmployer: (view: EmployerView) => vo
         <section><p className="leading-7 text-slate-300">Middle East & others:<br />Mobile: +91 - 9818317555<br />middleeast@Placd.com</p></section>
       </div>
       <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 border-t border-slate-800 px-4 py-8">
-        <button className="flex items-center gap-2" onClick={() => goEmployer("overview")}><span className="grid h-9 w-9 place-items-center rounded-xl bg-white font-black text-teal-800">P</span><span className="text-2xl font-black">Placd</span></button>
+        <button className="flex items-center gap-2" onClick={() => goEmployer("overview")}><BrandLogo dark /></button>
         <span className="text-slate-300">© 2026 Placd Recruiting. All Rights Reserved</span>
         <div className="flex gap-3"><span className="grid h-8 w-8 place-items-center rounded-full bg-white text-sm font-black text-slate-950">in</span><span className="grid h-8 w-8 place-items-center rounded-full bg-white text-sm font-black text-slate-950">yt</span></div>
       </div>
@@ -1919,22 +2145,24 @@ function MegaNavItem({
   label: string;
   badge?: string;
   wide?: boolean;
-  columns: Array<{ title: string; links: Array<[string, () => void, string?]> }>;
+  columns: HeaderMenuColumn[];
 }) {
+  const panelWidth = wide ? "lg:w-[820px] xl:w-[880px]" : columns.length >= 3 ? "lg:w-[720px] xl:w-[760px]" : "lg:w-[480px]";
+
   return (
     <div className="group relative">
-      <button className={`relative py-3 ${active ? "text-teal-800 after:absolute after:inset-x-0 after:bottom-0 after:h-1 after:rounded-full after:bg-coral-500" : "hover:text-teal-800"}`}>
+      <button className={`relative py-3 text-slate-800 transition hover:text-slate-950 after:absolute after:inset-x-0 after:bottom-0 after:h-1 after:scale-x-0 after:rounded-full after:bg-coral-500 after:transition-transform group-hover:after:scale-x-100 ${active ? "font-black text-slate-950 after:scale-x-100" : ""}`}>
         {label}
         {badge && <span className="absolute -right-4 -top-0.5 grid h-5 min-w-5 place-items-center rounded-full bg-red-500 px-1 text-xs font-black text-white">{badge}</span>}
       </button>
-      <div className={`invisible fixed left-4 right-4 top-20 z-50 max-h-[calc(100vh-6rem)] overflow-y-auto rounded-[28px] border border-slate-100 bg-white p-6 opacity-0 shadow-2xl shadow-slate-300/60 transition group-hover:visible group-hover:opacity-100 md:p-8 lg:absolute lg:left-1/2 lg:right-auto lg:top-[calc(100%-2px)] lg:max-h-none lg:-translate-x-1/2 lg:overflow-visible ${wide ? "lg:w-[880px]" : "lg:w-[440px]"}`}>
-        <div className={`grid gap-8 ${columns.length > 2 ? "lg:grid-cols-3" : columns.length > 1 ? "md:grid-cols-2" : "grid-cols-1"}`}>
+      <div className={`invisible fixed left-4 right-4 top-24 z-50 max-h-[calc(100vh-7rem)] overflow-y-auto rounded-[24px] border border-slate-100 bg-white p-7 opacity-0 shadow-2xl shadow-slate-300/60 transition group-hover:visible group-hover:opacity-100 md:p-9 lg:absolute lg:left-1/2 lg:right-auto lg:top-[calc(100%-1px)] lg:max-h-none lg:-translate-x-1/2 lg:overflow-visible ${panelWidth}`}>
+        <div className={`grid gap-7 ${columns.length > 2 ? "lg:grid-cols-3" : columns.length > 1 ? "md:grid-cols-2" : "grid-cols-1"}`}>
           {columns.map((column) => (
             <section className="border-b border-slate-200 pb-5 last:border-b-0 last:pb-0 md:border-b-0 md:border-r md:pb-0 md:pr-7 md:last:border-r-0 md:last:pr-0" key={column.title}>
-              <h3 className="mb-4 text-lg font-black text-slate-950">{column.title}</h3>
-              <div className="grid gap-3">
+              <h3 className="mb-4 text-lg font-black leading-6 text-slate-950">{column.title}</h3>
+              <div className="grid gap-4">
                 {column.links.map(([item, onClick, pill]) => (
-                  <button className="flex items-center justify-between text-left text-slate-600 hover:text-teal-800" key={item} onClick={onClick}>
+                  <button className="flex items-center justify-between text-left text-base font-semibold text-slate-600 hover:text-slate-950" key={item} onClick={onClick}>
                     <span>{item}</span>
                     {pill && <span className="rounded-full border border-red-100 bg-red-50 px-3 py-1 text-xs font-black text-red-500">{pill}</span>}
                   </button>

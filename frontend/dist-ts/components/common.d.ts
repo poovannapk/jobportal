@@ -44,6 +44,10 @@ export declare function Logo({ label, large }: {
     label: string;
     large?: boolean;
 }): import("react/jsx-runtime").JSX.Element;
+export declare function BrandLogo({ large, dark }: {
+    large?: boolean;
+    dark?: boolean;
+}): import("react/jsx-runtime").JSX.Element;
 export declare function Avatar({ label, large }: {
     label: string;
     large?: boolean;

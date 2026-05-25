@@ -1,5 +1,6 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { CheckCircle2, X } from "lucide-react";
+import placdLogo from "../assets/placd-logo.jpg";
 export const card = "rounded-2xl border border-slate-200 bg-white shadow-sm";
 export const primaryButton = "inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-teal-700 px-6 font-black text-white transition hover:bg-teal-800 disabled:cursor-not-allowed disabled:bg-slate-300";
 export const secondaryButton = "inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-slate-300 bg-white px-5 font-bold text-slate-800 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:text-slate-400";
@@ -28,6 +29,11 @@ export function MetricPanel({ icon, label, value, detail }) {
 }
 export function Logo({ label, large = false }) {
     return _jsx("div", { className: `grid place-items-center rounded-2xl bg-[#e8f3ee] font-black text-teal-900 ${large ? "h-16 w-16" : "h-12 w-12"}`, children: label });
+}
+export function BrandLogo({ large = false, dark = false }) {
+    const width = large ? 160 : 128;
+    const height = large ? 56 : 40;
+    return (_jsx("span", { className: `block overflow-hidden rounded bg-white ${dark ? "ring-1 ring-white/20" : ""} ${large ? "h-14 w-40" : "h-10 w-32"}`, children: _jsx("img", { className: "h-full w-full object-contain", src: placdLogo, alt: "Placd", width: width, height: height, decoding: "async", loading: "eager" }) }));
 }
 export function Avatar({ label, large = false }) {
     return _jsx("div", { className: `grid place-items-center rounded-full bg-[#ffe6dc] font-black text-[#9a442b] ${large ? "h-14 w-14 text-lg" : "h-11 w-11"}`, children: label });
