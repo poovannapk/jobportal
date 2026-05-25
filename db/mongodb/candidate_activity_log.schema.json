@@ -1,0 +1,46 @@
+{
+  "$jsonSchema": {
+    "bsonType": "object",
+    "required": ["candidateUserId", "occurredAt", "eventType", "sessionId", "source"],
+    "properties": {
+      "_id": { "bsonType": "objectId" },
+      "candidateUserId": { "bsonType": "string", "description": "UUID string matching users.id" },
+      "sessionId": { "bsonType": "string" },
+      "occurredAt": { "bsonType": "date" },
+      "eventType": {
+        "enum": ["JOB_VIEWED", "JOB_SAVED", "JOB_APPLIED", "SEARCH_EXECUTED", "PROFILE_UPDATED", "RESUME_UPLOADED"]
+      },
+      "source": {
+        "bsonType": "object",
+        "required": ["channel", "ipHash"],
+        "properties": {
+          "channel": { "enum": ["WEB", "MOBILE_WEB", "ANDROID", "IOS", "PARTNER_API"] },
+          "userAgent": { "bsonType": "string" },
+          "ipHash": { "bsonType": "string" }
+        }
+      },
+      "job": {
+        "bsonType": "object",
+        "properties": {
+          "jobId": { "bsonType": "string" },
+          "companyId": { "bsonType": "string" },
+          "title": { "bsonType": "string" }
+        }
+      },
+      "search": {
+        "bsonType": "object",
+        "properties": {
+          "queryText": { "bsonType": "string" },
+          "filters": { "bsonType": "object" },
+          "resultCount": { "bsonType": "int" }
+        }
+      },
+      "metadata": { "bsonType": "object" }
+    }
+  },
+  "indexes": [
+    { "key": { "candidateUserId": 1, "occurredAt": -1 }, "name": "idx_activity_candidate_time" },
+    { "key": { "eventType": 1, "occurredAt": -1 }, "name": "idx_activity_event_time" },
+    { "key": { "sessionId": 1 }, "name": "idx_activity_session" }
+  ]
+}

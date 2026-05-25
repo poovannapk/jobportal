@@ -1,0 +1,358 @@
+openapi: 3.1.0
+info:
+  title: Enterprise Job Portal API
+  version: 1.0.0
+servers:
+  - url: https://api.jobportal.example.com
+security:
+  - bearerAuth: []
+paths:
+  /api/v1/recruiter/jobs:
+    post:
+      summary: Create a recruiter job posting
+      operationId: createRecruiterJob
+      tags: [Recruiter Jobs]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateRecruiterJobRequest"
+            example:
+              tenant:
+                companyId: "2b82f8df-93a0-47cf-8d35-57e492a67c01"
+                recruiterUserId: "0d3b2b1a-0e42-4127-9b07-cb0a7cd734fb"
+                source: "RECRUITER_PORTAL"
+              title: "Senior Backend Engineer"
+              description: "Own distributed marketplace services and high-volume search integrations."
+              employmentType: "FULL_TIME"
+              workplaceType: "HYBRID"
+              location:
+                city: "Bengaluru"
+                country: "IN"
+                latitude: 12.971599
+                longitude: 77.594566
+              experience:
+                minMonths: 60
+                maxMonths: 120
+              salary:
+                minLpa: 28
+                maxLpa: 55
+                currency: "INR"
+              requiredSkills:
+                - name: "Java"
+                  importance: "MUST_HAVE"
+                  minYears: 5
+                - name: "Kafka"
+                  importance: "MUST_HAVE"
+                  minYears: 3
+              publish: true
+      responses:
+        "201":
+          description: Job created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateRecruiterJobResponse"
+        "400":
+          $ref: "#/components/responses/ValidationError"
+
+  /api/v1/resdex/search:
+    post:
+      summary: Search candidate profiles with boolean and geo filters
+      operationId: searchResdexCandidates
+      tags: [Resdex]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ResdexSearchRequest"
+            example:
+              tenant:
+                companyId: "2b82f8df-93a0-47cf-8d35-57e492a67c01"
+                recruiterUserId: "0d3b2b1a-0e42-4127-9b07-cb0a7cd734fb"
+              booleanQuery:
+                queryString: "\"Java\" AND (\"Spring Boot\" OR Microservices) AND Kafka NOT \"manual testing\""
+                must: ["Java", "Spring Boot"]
+                should: ["Kafka", "OpenSearch"]
+                mustNot: ["manual testing"]
+                searchFields: ["headline", "skills", "resumeText", "searchableText"]
+              experience:
+                minMonths: 48
+                maxMonths: 132
+              noticePeriod:
+                maxDays: 45
+                includeServingNotice: true
+              location:
+                city: "Bengaluru"
+                preferredCities: ["Bengaluru", "Hyderabad", "Pune"]
+                radiusKm: 35
+                latitude: 12.971599
+                longitude: 77.594566
+                includeRemoteCandidates: true
+              salaryExpectation:
+                maxLpa: 60
+                currency: "INR"
+              activity:
+                lastActiveWithinDays: 30
+                profileUpdatedWithinDays: 90
+              recruiterControls:
+                consumeProfileViewCredit: false
+                hidePreviouslyContacted: true
+              pagination:
+                page: 1
+                pageSize: 25
+              sort:
+                field: "LAST_ACTIVE"
+                direction: "DESC"
+      responses:
+        "200":
+          description: Candidate search results
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResdexSearchResponse"
+        "400":
+          $ref: "#/components/responses/ValidationError"
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  responses:
+    ValidationError:
+      description: Request validation failed
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [error, details]
+            properties:
+              error:
+                const: VALIDATION_ERROR
+              details:
+                type: array
+                items:
+                  type: object
+  schemas:
+    TenantMetadata:
+      type: object
+      required: [companyId, recruiterUserId]
+      properties:
+        companyId:
+          type: string
+          format: uuid
+        recruiterUserId:
+          type: string
+          format: uuid
+        source:
+          enum: [RECRUITER_PORTAL, ATS_API, BULK_IMPORT]
+          default: RECRUITER_PORTAL
+    SkillRequirement:
+      type: object
+      required: [name, importance]
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 80
+        importance:
+          enum: [MUST_HAVE, NICE_TO_HAVE]
+        minYears:
+          type: number
+          minimum: 0
+          maximum: 40
+    CreateRecruiterJobRequest:
+      type: object
+      required: [tenant, title, description, employmentType, workplaceType, location, experience, requiredSkills]
+      properties:
+        tenant:
+          $ref: "#/components/schemas/TenantMetadata"
+        title:
+          type: string
+          minLength: 4
+          maxLength: 180
+        description:
+          type: string
+          minLength: 50
+          maxLength: 20000
+        employmentType:
+          enum: [FULL_TIME, PART_TIME, CONTRACT, INTERNSHIP]
+        workplaceType:
+          enum: [ONSITE, HYBRID, REMOTE]
+        location:
+          type: object
+          required: [city, country]
+          properties:
+            city:
+              type: string
+            country:
+              type: string
+              minLength: 2
+              maxLength: 2
+            latitude:
+              type: number
+              minimum: -90
+              maximum: 90
+            longitude:
+              type: number
+              minimum: -180
+              maximum: 180
+        experience:
+          type: object
+          required: [minMonths, maxMonths]
+          properties:
+            minMonths:
+              type: integer
+              minimum: 0
+            maxMonths:
+              type: integer
+              minimum: 0
+        salary:
+          type: object
+          properties:
+            minLpa:
+              type: number
+              minimum: 0
+            maxLpa:
+              type: number
+              minimum: 0
+            currency:
+              type: string
+              minLength: 3
+              maxLength: 3
+        requiredSkills:
+          type: array
+          minItems: 1
+          maxItems: 40
+          items:
+            $ref: "#/components/schemas/SkillRequirement"
+        publish:
+          type: boolean
+          default: false
+    CreateRecruiterJobResponse:
+      type: object
+      required: [jobId, status, events]
+      properties:
+        jobId:
+          type: string
+          format: uuid
+        status:
+          enum: [DRAFT, PUBLISHED]
+        events:
+          type: array
+          items:
+            type: string
+    ResdexSearchRequest:
+      type: object
+      required: [tenant, booleanQuery, pagination]
+      properties:
+        tenant:
+          $ref: "#/components/schemas/TenantMetadata"
+        booleanQuery:
+          type: object
+          properties:
+            queryString:
+              type: string
+              maxLength: 2000
+            must:
+              type: array
+              items: { type: string }
+            should:
+              type: array
+              items: { type: string }
+            mustNot:
+              type: array
+              items: { type: string }
+            searchFields:
+              type: array
+              items:
+                enum: [headline, skills, currentTitle, currentCompany, resumeText, searchableText]
+        experience:
+          type: object
+          properties:
+            minMonths: { type: integer, minimum: 0 }
+            maxMonths: { type: integer, minimum: 0 }
+        location:
+          type: object
+          properties:
+            city: { type: string }
+            preferredCities:
+              type: array
+              items: { type: string }
+            radiusKm: { type: integer, minimum: 1, maximum: 250 }
+            latitude: { type: number, minimum: -90, maximum: 90 }
+            longitude: { type: number, minimum: -180, maximum: 180 }
+            includeRemoteCandidates: { type: boolean }
+        noticePeriod:
+          type: object
+          properties:
+            maxDays: { type: integer, minimum: 0, maximum: 365 }
+            includeServingNotice: { type: boolean }
+        noticePeriodMaxDays:
+          type: integer
+          minimum: 0
+          maximum: 365
+        salaryExpectation:
+          type: object
+          properties:
+            maxLpa: { type: number, minimum: 0 }
+            currency: { type: string, minLength: 3, maxLength: 3 }
+        activity:
+          type: object
+          properties:
+            lastActiveWithinDays: { type: integer, minimum: 1, maximum: 3650 }
+            profileUpdatedWithinDays: { type: integer, minimum: 1, maximum: 3650 }
+        recruiterControls:
+          type: object
+          properties:
+            consumeProfileViewCredit: { type: boolean }
+            hidePreviouslyContacted: { type: boolean }
+            hideAlreadyAppliedToJobId: { type: string, format: uuid }
+        pagination:
+          type: object
+          required: [page, pageSize]
+          properties:
+            page: { type: integer, minimum: 1 }
+            pageSize: { type: integer, minimum: 1, maximum: 100 }
+        sort:
+          type: object
+          properties:
+            field:
+              enum: [LAST_ACTIVE, EXPERIENCE, PROFILE_UPDATED]
+            direction:
+              enum: [ASC, DESC]
+    ResdexSearchResponse:
+      type: object
+      required: [requestId, total, page, pageSize, candidates]
+      properties:
+        requestId: { type: string }
+        total: { type: integer }
+        page: { type: integer }
+        pageSize: { type: integer }
+        cache:
+          enum: [HIT, MISS]
+        credits:
+          type: object
+          properties:
+            profileViewsConsumed: { type: integer }
+            profileViewBalance: { type: integer }
+            searchesRemainingToday: { type: integer }
+        facets:
+          type: object
+        candidates:
+          type: array
+          items:
+            type: object
+            required: [candidateUserId, fullName, score]
+            properties:
+              candidateUserId: { type: string, format: uuid }
+              fullName: { type: string }
+              currentTitle: { type: string }
+              currentLocation: { type: string }
+              totalExperienceMonths: { type: integer }
+              lastActiveAt: { type: string, format: date-time }
+              score: { type: number }

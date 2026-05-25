@@ -1,0 +1,12 @@
+{
+  "files": [],
+  "references": [
+    { "path": "backend/packages/domain" },
+    { "path": "backend/packages/infrastructure" },
+    { "path": "backend/api" },
+    { "path": "backend/workers/sourcing-worker" },
+    { "path": "backend/workers/ats-sync-worker" },
+    { "path": "backend/workers/outbox-publisher" },
+    { "path": "frontend" }
+  ]
+}
