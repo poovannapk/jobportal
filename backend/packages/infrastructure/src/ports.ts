@@ -4,7 +4,7 @@ import type {
   ResdexCandidateHit,
   ResdexSearchRequest,
   SaveCandidateProfileRequest
-} from "@jobportal/domain";
+} from "@Placd/domain";
 
 export type CreatedJob = {
   jobId: string;

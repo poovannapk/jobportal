@@ -1,7 +1,7 @@
 import { Client as OpenSearchClient } from "@opensearch-project/opensearch";
 import { Redis } from "ioredis";
 import { Kafka, type Producer } from "kafkajs";
-import type { CandidateProfileUpdatedEvent } from "@jobportal/domain";
+import type { CandidateProfileUpdatedEvent } from "@Placd/domain";
 
 const kafkaBrokers = (process.env.KAFKA_BROKERS ?? "localhost:9092").split(",").map((value) => value.trim());
 const openSearch = new OpenSearchClient({ node: process.env.OPENSEARCH_NODE ?? "http://localhost:9200" });

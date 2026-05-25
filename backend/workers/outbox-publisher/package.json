@@ -1,5 +1,5 @@
 {
-  "name": "@jobportal/outbox-publisher",
+  "name": "@Placd/outbox-publisher",
   "version": "0.1.0",
   "private": true,
   "type": "module",

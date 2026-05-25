@@ -1,6 +1,6 @@
 import { randomUUID } from "node:crypto";
 import { Pool } from "pg";
-import type { CandidateProfileUpdatedEvent, SaveCandidateProfileRequest } from "@jobportal/domain";
+import type { CandidateProfileUpdatedEvent, SaveCandidateProfileRequest } from "@Placd/domain";
 import type { CandidateProfileRepository } from "./ports.js";
 
 export class PostgresCandidateProfileRepository implements CandidateProfileRepository {

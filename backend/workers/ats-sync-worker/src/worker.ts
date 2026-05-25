@@ -26,8 +26,8 @@ async function sendToAts(event: ApplicationSubmittedEvent): Promise<void> {
     method: "POST",
     headers: {
       "content-type": "application/json",
-      "x-jobportal-event-id": event.eventId,
-      "x-jobportal-timestamp": new Date().toISOString()
+      "x-Placd-event-id": event.eventId,
+      "x-Placd-timestamp": new Date().toISOString()
     },
     body: JSON.stringify({
       eventId: event.eventId,
@@ -35,7 +35,7 @@ async function sendToAts(event: ApplicationSubmittedEvent): Promise<void> {
       eventVersion: "2026-05-25",
       occurredAt: event.occurredAt,
       source: {
-        system: "JOBPORTAL",
+        system: "Placd",
         environment: process.env.NODE_ENV ?? "development",
         correlationId: event.payload.correlationId
       },
@@ -45,11 +45,11 @@ async function sendToAts(event: ApplicationSubmittedEvent): Promise<void> {
         ...event.payload.employer
       },
       job: {
-        jobPortalJobId: event.payload.jobId,
+        PlacdJobId: event.payload.jobId,
         ...event.payload.job
       },
       application: {
-        jobPortalApplicationId: event.payload.applicationId,
+        PlacdApplicationId: event.payload.applicationId,
         appliedAt: event.occurredAt,
         sourceChannel: "JOB_PORTAL_DIRECT_APPLY",
         coverNote: event.payload.coverNote

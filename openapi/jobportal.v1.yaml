@@ -3,7 +3,7 @@ info:
   title: Enterprise Job Portal API
   version: 1.0.0
 servers:
-  - url: https://api.jobportal.example.com
+  - url: https://api.Placd.example.com
 security:
   - bearerAuth: []
 paths:

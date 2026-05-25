@@ -1,5 +1,5 @@
 import { Client } from "@opensearch-project/opensearch";
-import type { ResdexSearchRequest } from "@jobportal/domain";
+import type { ResdexSearchRequest } from "@Placd/domain";
 import type { CandidateSearchEngine, CandidateSearchResult } from "./ports.js";
 
 export class OpenSearchCandidateSearchEngine implements CandidateSearchEngine {

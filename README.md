@@ -50,4 +50,4 @@ curl http://localhost:8080/health
 - `POST /api/v1/recruiter/jobs`
 - `POST /api/v1/resdex/search`
 
-See [openapi/jobportal.v1.yaml](openapi/jobportal.v1.yaml) for full payload contracts.
+See [openapi/Placd.v1.yaml](openapi/Placd.v1.yaml) for full payload contracts.

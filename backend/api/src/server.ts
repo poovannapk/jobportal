@@ -26,9 +26,9 @@ export async function buildServer() {
   }));
 
   fastify.get("/", async () => ({
-    service: "enterprise-jobportal-api",
+    service: "enterprise-Placd-api",
     status: "running",
-    docs: "/openapi/jobportal.v1.yaml",
+    docs: "/openapi/Placd.v1.yaml",
     health: "/health",
     endpoints: ["/api/v1/recruiter/jobs", "/api/v1/resdex/search", "/api/v1/jobseeker/profile"]
   }));

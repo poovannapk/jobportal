@@ -1,5 +1,5 @@
 {
-  "name": "enterprise-jobportal",
+  "name": "enterprise-Placd",
   "version": "0.1.0",
   "private": true,
   "description": "Enterprise-grade dual-sided job marketplace architecture and API scaffold.",
@@ -11,12 +11,12 @@
     "frontend"
   ],
   "scripts": {
-    "dev": "npm run dev -w @jobportal/api-gateway",
-    "dev:api": "npm run dev -w @jobportal/api-gateway",
-    "dev:web": "npm run dev -w @jobportal/web",
-    "dev:outbox": "npm run dev -w @jobportal/outbox-publisher",
-    "dev:sourcing": "npm run dev -w @jobportal/sourcing-worker",
-    "dev:ats": "npm run dev -w @jobportal/ats-sync-worker",
+    "dev": "npm run dev -w @Placd/api-gateway",
+    "dev:api": "npm run dev -w @Placd/api-gateway",
+    "dev:web": "npm run dev -w @Placd/web",
+    "dev:outbox": "npm run dev -w @Placd/outbox-publisher",
+    "dev:sourcing": "npm run dev -w @Placd/sourcing-worker",
+    "dev:ats": "npm run dev -w @Placd/ats-sync-worker",
     "build": "tsc -b",
     "typecheck": "tsc -b",
     "lint": "tsc -b",

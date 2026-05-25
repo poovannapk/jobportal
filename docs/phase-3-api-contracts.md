@@ -157,11 +157,11 @@ Validation error:
 Webhook request fired by the ATS sync worker:
 
 ```http
-POST https://workday.customer.example.com/jobportal/applications
+POST https://workday.customer.example.com/Placd/applications
 Content-Type: application/json
-X-Jobportal-Event-Id: evt-7b29b71c-5ce0-42ad-91a4-f029ad2b8a20
-X-Jobportal-Signature: sha256=<hmac>
-X-Jobportal-Timestamp: 2026-05-25T10:35:21.000Z
+X-Placd-Event-Id: evt-7b29b71c-5ce0-42ad-91a4-f029ad2b8a20
+X-Placd-Signature: sha256=<hmac>
+X-Placd-Timestamp: 2026-05-25T10:35:21.000Z
 ```
 
 Payload:
@@ -173,7 +173,7 @@ Payload:
   "eventVersion": "2026-05-25",
   "occurredAt": "2026-05-25T10:35:21.000Z",
   "source": {
-    "system": "JOBPORTAL",
+    "system": "Placd",
     "environment": "production",
     "correlationId": "req-88bb542d8b244e6e"
   },
@@ -184,7 +184,7 @@ Payload:
     "workdayTenant": "acme"
   },
   "job": {
-    "jobPortalJobId": "6bb6f4bc-5154-4376-a8ac-5ab40a84fcca",
+    "PlacdJobId": "6bb6f4bc-5154-4376-a8ac-5ab40a84fcca",
     "workdayRequisitionId": "WD-REQ-2026-44891",
     "title": "Senior Backend Engineer",
     "location": {
@@ -194,7 +194,7 @@ Payload:
     }
   },
   "application": {
-    "jobPortalApplicationId": "9f5c96ea-7586-45be-a12d-18fba4e58f1a",
+    "PlacdApplicationId": "9f5c96ea-7586-45be-a12d-18fba4e58f1a",
     "appliedAt": "2026-05-25T10:35:20.000Z",
     "sourceChannel": "JOB_PORTAL_DIRECT_APPLY",
     "coverNote": "Interested in backend platform roles focused on distributed systems.",
@@ -253,7 +253,7 @@ Payload:
     "contentType": "application/pdf",
     "sizeBytes": 348921,
     "s3ObjectKey": "resumes/11111111-1111-4111-8111-111111111111/2026/05/resume.pdf",
-    "downloadUrl": "https://jobportal-resumes.s3.amazonaws.com/resumes/11111111-1111-4111-8111-111111111111/2026/05/resume.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Expires=900",
+    "downloadUrl": "https://Placd-resumes.s3.amazonaws.com/resumes/11111111-1111-4111-8111-111111111111/2026/05/resume.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Expires=900",
     "downloadUrlExpiresAt": "2026-05-25T10:50:21.000Z",
     "checksumSha256": "6f2d8c9a7a0b5c4e5bfb2e9e1a6d88a2d8dbdbebcf438f119f5aeb3d2fd0a777"
   }

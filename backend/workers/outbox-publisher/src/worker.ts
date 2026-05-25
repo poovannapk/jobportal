@@ -8,7 +8,7 @@ type OutboxRow = {
   payload: Record<string, unknown>;
 };
 
-const databaseUrl = process.env.DATABASE_URL ?? "postgres://jobportal:jobportal@localhost:5432/jobportal";
+const databaseUrl = process.env.DATABASE_URL ?? "postgres://Placd:Placd@localhost:5432/Placd";
 const kafkaBrokers = (process.env.KAFKA_BROKERS ?? "localhost:9092").split(",").map((value) => value.trim());
 const pollIntervalMs = Number(process.env.OUTBOX_POLL_INTERVAL_MS ?? 1000);
 const batchSize = Number(process.env.OUTBOX_BATCH_SIZE ?? 250);

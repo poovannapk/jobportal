@@ -1,5 +1,5 @@
 {
-  "name": "@jobportal/sourcing-worker",
+  "name": "@Placd/sourcing-worker",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -12,7 +12,7 @@
     "start": "node dist/worker.js"
   },
   "dependencies": {
-    "@jobportal/domain": "0.1.0",
+    "@Placd/domain": "0.1.0",
     "@opensearch-project/opensearch": "^2.10.0",
     "ioredis": "^5.4.1",
     "kafkajs": "^2.2.4"

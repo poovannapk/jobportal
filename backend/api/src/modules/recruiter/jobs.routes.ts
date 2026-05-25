@@ -1,6 +1,6 @@
 import { randomUUID } from "node:crypto";
 import type { FastifyInstance } from "fastify";
-import { createRecruiterJobSchema, type JobPostingCreatedEvent } from "@jobportal/domain";
+import { createRecruiterJobSchema, type JobPostingCreatedEvent } from "@Placd/domain";
 import type { AppContainer } from "../../container.js";
 
 export async function registerRecruiterJobRoutes(fastify: FastifyInstance, container: AppContainer): Promise<void> {

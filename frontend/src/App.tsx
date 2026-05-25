@@ -414,8 +414,8 @@ function Header({
     <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/95 backdrop-blur">
       <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-4 py-4">
         <button className="flex items-center gap-2" onClick={() => (persona === "employee" ? setEmployeeView("home") : setEmployerView("overview"))}>
-          <span className="grid h-10 w-10 place-items-center rounded-xl bg-teal-700 font-black text-white">JP</span>
-          <span className="text-xl font-black tracking-normal text-slate-950">JobPortal</span>
+          <span className="grid h-10 w-10 place-items-center rounded-xl bg-teal-700 font-black text-white">P</span>
+          <span className="text-xl font-black tracking-normal text-slate-950">Placd</span>
         </button>
         <nav className="flex flex-wrap items-center gap-6 text-base font-bold text-slate-700">
           {persona === "employee" ? (
@@ -511,8 +511,8 @@ function PublicHeader({
     <header className="sticky top-0 z-30 border-b border-slate-100 bg-white shadow-sm">
       <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-5 px-4 py-5">
         <button className="flex items-center gap-3" onClick={() => setEmployeeView("home")}>
-          <span className="grid h-12 w-12 place-items-center rounded-2xl bg-teal-700 font-black text-white">JP</span>
-          <span className="text-3xl font-black text-teal-800">JobPortal</span>
+          <span className="grid h-12 w-12 place-items-center rounded-2xl bg-teal-700 font-black text-white">P</span>
+          <span className="text-3xl font-black text-teal-800">Placd</span>
         </button>
         <nav className="flex items-center gap-8 text-lg font-bold text-slate-700">
           <button>Jobs</button>
@@ -675,7 +675,7 @@ function AppDownloadBand() {
         <p className="mt-3 text-lg text-slate-600">Apply faster, track recruiters, and get alerts for jobs matching your profile.</p>
         <div className="mt-7 flex max-w-md rounded-full bg-white p-2 shadow-sm"><input className="flex-1 bg-transparent px-5 outline-none" placeholder="Enter mobile number..." /><button className={primaryButton}>Get link</button></div>
       </div>
-      <div className="grid place-items-center rounded-3xl bg-white p-8 text-center"><strong className="text-5xl text-teal-800">JP</strong><span className="mt-2 block text-slate-500">Scan to download</span></div>
+      <div className="grid place-items-center rounded-3xl bg-white p-8 text-center"><strong className="text-5xl text-teal-800">P</strong><span className="mt-2 block text-slate-500">Scan to download</span></div>
     </section>
   );
 }
@@ -701,8 +701,8 @@ function HeaderSearchOverlay({
       <section className="border-b border-slate-200 bg-white px-4 py-8 shadow-xl" onClick={(event) => event.stopPropagation()}>
         <div className="mx-auto flex max-w-7xl items-center gap-8">
           <button className="hidden items-center gap-3 md:flex" onClick={onClose}>
-            <span className="grid h-12 w-12 place-items-center rounded-2xl bg-teal-700 font-black text-white">JP</span>
-            <span className="text-3xl font-black text-teal-800">JobPortal</span>
+            <span className="grid h-12 w-12 place-items-center rounded-2xl bg-teal-700 font-black text-white">P</span>
+            <span className="text-3xl font-black text-teal-800">Placd</span>
           </button>
           <form className="grid flex-1 gap-3 rounded-full border border-slate-200 bg-white p-3 shadow-lg shadow-slate-200/70 lg:grid-cols-[minmax(0,1.25fr)_220px_minmax(0,0.8fr)_auto] lg:items-center" onSubmit={(event) => {
             event.preventDefault();
@@ -767,7 +767,7 @@ function ProfileDrawer({
         </section>
 
         <button className="mt-9 flex w-full items-center justify-between rounded-2xl border border-amber-200 bg-amber-50 p-4 text-left text-lg font-black text-slate-900" onClick={() => go("profile")}>
-          <span className="inline-flex items-center gap-3"><Crown className="text-amber-600" size={22} />Upgrade to JobPortal Pro</span>
+          <span className="inline-flex items-center gap-3"><Crown className="text-amber-600" size={22} />Upgrade to Placd Pro</span>
           <ChevronDown className="-rotate-90 text-amber-800" size={20} />
         </button>
 
@@ -791,7 +791,7 @@ function ProfileDrawer({
         </section>
 
         <nav className="mt-7 grid gap-1">
-          <ProfileDrawerLink icon={<Menu size={20} />} label="JobPortal Blog" onClick={() => go("home")} />
+          <ProfileDrawerLink icon={<Menu size={20} />} label="Placd Blog" onClick={() => go("home")} />
           <ProfileDrawerLink icon={<Settings size={20} />} label="Settings" onClick={() => go("profile")} />
           <ProfileDrawerLink icon={<HelpCircle size={20} />} label="FAQs" onClick={() => go("applications")} />
           <ProfileDrawerLink icon={<LogOut size={20} />} label="Logout" onClick={onLogout} />
@@ -895,7 +895,7 @@ function PromoStrip() {
     <section className="grid overflow-hidden rounded-[28px] bg-white shadow-sm md:grid-cols-[1fr_210px]">
       <div className="p-7">
         <span className="font-black text-coral-500">More work than most people realise.</span>
-        <h2 className="mt-1 max-w-xl text-2xl font-black text-slate-950">Finding a job is a job in itself. Do it well with JobPortal Pro.</h2>
+        <h2 className="mt-1 max-w-xl text-2xl font-black text-slate-950">Finding a job is a job in itself. Do it well with Placd Pro.</h2>
       </div>
       <div className="grid place-items-center bg-[#fff3e8] p-6">
         <button className="rounded-full bg-coral-500 px-8 py-4 font-black text-white">Know more</button>
@@ -1055,7 +1055,7 @@ function EmployerOverview({ jobs, candidates, credits, setEmployerView }: { jobs
     ["Consultants & agencies", "Source high volume profiles faster with Resdex.", "Track candidates in shared pipeline boards."]
   ];
   const updates = ["Understanding the Recruitment Process in HRM", "Free Job Posting: Step-by-Step Guide", "What is a Job Posting?", "How to hire faster with talent data"];
-  const faqs = ["How can recruiters sign up for a JobPortal account?", "How does pricing work for recruiter plans and job posting?", "What support, insight, and team collaboration features are offered?", "How secure is my recruiter account?", "How can I find the right candidates using Resdex?", "What features does JobPortal provide for bulk hiring?"];
+  const faqs = ["How can recruiters sign up for a Placd account?", "How does pricing work for recruiter plans and job posting?", "What support, insight, and team collaboration features are offered?", "How secure is my recruiter account?", "How can I find the right candidates using Resdex?", "What features does Placd provide for bulk hiring?"];
 
   return (
     <main className="bg-white text-slate-950">
@@ -1089,7 +1089,7 @@ function EmployerOverview({ jobs, candidates, credits, setEmployerView }: { jobs
       <section className="bg-gradient-to-r from-[#eef3ff] to-[#fff1fb] px-4 py-10">
         <div className="mx-auto max-w-7xl rounded-3xl bg-white p-6 shadow-sm">
           <div className="flex flex-wrap items-center justify-between gap-4">
-            <div><p className="text-sm text-slate-500">Powered by</p><h2 className="text-2xl font-black text-teal-800">JobPortal talent cloud</h2><p className="text-slate-500">One-stop solution: Search, Discover, Engage.</p></div>
+            <div><p className="text-sm text-slate-500">Powered by</p><h2 className="text-2xl font-black text-teal-800">Placd talent cloud</h2><p className="text-slate-500">One-stop solution: Search, Discover, Engage.</p></div>
             <div className="flex flex-wrap gap-3 text-sm font-black text-slate-500"><span>recruit</span><span>resdex</span><span>select</span><span>campus</span></div>
           </div>
           <div className="mt-7 flex gap-4 overflow-x-auto pb-2">
@@ -1103,7 +1103,7 @@ function EmployerOverview({ jobs, candidates, credits, setEmployerView }: { jobs
       </section>
 
       <section className="mx-auto max-w-7xl px-4 py-16">
-        <h2 className="text-center text-3xl font-black">What JobPortal offers</h2>
+        <h2 className="text-center text-3xl font-black">What Placd offers</h2>
         <p className="mt-2 text-center text-slate-500">World-class hiring from planning and branding to sourcing, screening, and outreach.</p>
         <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
           {offers.map(([title, detail, view], index) => (
@@ -1433,7 +1433,7 @@ function AuthModal({ mode, persona, onClose, onSwitch, onSubmit }: { mode: "logi
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto bg-[#f5f7fb] p-4">
       <div className="mx-auto flex max-w-7xl items-center justify-between py-5">
-        <button className="flex items-center gap-2" onClick={onClose}><span className="grid h-10 w-10 place-items-center rounded-xl bg-teal-700 font-black text-white">JP</span><span className="text-2xl font-black">JobPortal</span></button>
+        <button className="flex items-center gap-2" onClick={onClose}><span className="grid h-10 w-10 place-items-center rounded-xl bg-teal-700 font-black text-white">P</span><span className="text-2xl font-black">Placd</span></button>
         <button className="text-lg" onClick={() => onSwitch("login")}>Already Registered? <span className="font-black text-teal-800">Login here</span></button>
       </div>
       <div className="mx-auto grid max-w-7xl gap-10 py-8 lg:grid-cols-[380px_minmax(0,1fr)]">
@@ -1445,7 +1445,7 @@ function AuthModal({ mode, persona, onClose, onSwitch, onSubmit }: { mode: "logi
           </div>
         </aside>
         <section className="rounded-[28px] bg-white p-10 shadow-sm">
-          <h1 className="text-3xl font-black">Create your JobPortal profile</h1>
+          <h1 className="text-3xl font-black">Create your Placd profile</h1>
           <p className="mt-1 text-lg text-slate-500">Search and apply to jobs from a high-scale job marketplace</p>
           <div className="mt-8 grid gap-5 lg:grid-cols-[minmax(0,1fr)_220px]">
             <div className="grid gap-5">
@@ -1723,8 +1723,8 @@ function Footer({
       <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 lg:grid-cols-[1.2fr_1fr_1fr_1fr]">
         <section>
           <button className="flex items-center gap-2" onClick={() => goEmployee("home")}>
-            <span className="grid h-10 w-10 place-items-center rounded-xl bg-teal-600 font-black text-white">JP</span>
-            <span className="text-xl font-black">JobPortal</span>
+            <span className="grid h-10 w-10 place-items-center rounded-xl bg-teal-600 font-black text-white">P</span>
+            <span className="text-xl font-black">Placd</span>
           </button>
           <p className="mt-4 max-w-sm text-sm leading-6 text-slate-300">A dual-sided hiring marketplace for job seekers, recruiters, Resdex sourcing, job applications, credits, and ATS integrations.</p>
           <div className="mt-5 flex flex-wrap gap-2">
@@ -1755,7 +1755,7 @@ function Footer({
       </div>
       <div className="border-t border-slate-800">
         <div className="mx-auto flex max-w-7xl flex-wrap justify-between gap-3 px-4 py-4 text-sm text-slate-400">
-          <span>© 2026 JobPortal Marketplace</span>
+          <span>© 2026 Placd Marketplace</span>
           <span>Privacy · Terms · Security · Support</span>
         </div>
       </div>
@@ -1782,8 +1782,8 @@ function EmployeeFooter({ goEmployee }: { goEmployee: (view: EmployeeView) => vo
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 lg:grid-cols-[220px_1fr_1fr_1fr_380px]">
         <section>
           <button className="flex items-center gap-3" onClick={() => goEmployee("home")}>
-            <span className="grid h-12 w-12 place-items-center rounded-2xl bg-teal-600 font-black text-white">JP</span>
-            <span className="text-3xl font-black">JobPortal</span>
+            <span className="grid h-12 w-12 place-items-center rounded-2xl bg-teal-600 font-black text-white">P</span>
+            <span className="text-3xl font-black">Placd</span>
           </button>
           <h3 className="mt-14 font-black">Connect with us</h3>
           <div className="mt-4 flex gap-5 text-slate-300">
@@ -1850,21 +1850,21 @@ function EmployerFooter({ goEmployer }: { goEmployer: (view: EmployerView) => vo
         ]} />
         <section>
           <h3 className="font-black text-white">Customer support</h3>
-          <p className="mt-5 leading-7 text-slate-300">Toll Free: 1800 102 5558<br />(10:00 AM to 6:00 PM, Mon - Sat)<br />support@jobportal.com</p>
+          <p className="mt-5 leading-7 text-slate-300">Toll Free: 1800 102 5558<br />(10:00 AM to 6:00 PM, Mon - Sat)<br />support@Placd.com</p>
         </section>
       </div>
       <div className="mx-auto grid max-w-7xl gap-10 px-4 pb-16 md:grid-cols-2 xl:grid-cols-4">
         <section>
           <h3 className="font-black text-white">Sales enquiries</h3>
-          <p className="mt-5 leading-7 text-slate-300">India:<br />Toll Free: 1800 102 2558<br />+91 - 9818882211<br />sales@jobportal.com</p>
+          <p className="mt-5 leading-7 text-slate-300">India:<br />Toll Free: 1800 102 2558<br />+91 - 9818882211<br />sales@Placd.com</p>
         </section>
-        <section><p className="leading-7 text-slate-300">USA:<br />Toll Free: +1 866 557 3340<br />usa@jobportal.com<br /><br />Europe/UK:<br />+44 808 120 2323<br />europe@jobportal.com</p></section>
-        <section><p className="leading-7 text-slate-300">South East Asia / AUS / NZ / Africa:<br />Mobile: +91 - 9266381188<br />asiapacific@jobportal.com<br />africa@jobportal.com</p></section>
-        <section><p className="leading-7 text-slate-300">Middle East & others:<br />Mobile: +91 - 9818317555<br />middleeast@jobportal.com</p></section>
+        <section><p className="leading-7 text-slate-300">USA:<br />Toll Free: +1 866 557 3340<br />usa@Placd.com<br /><br />Europe/UK:<br />+44 808 120 2323<br />europe@Placd.com</p></section>
+        <section><p className="leading-7 text-slate-300">South East Asia / AUS / NZ / Africa:<br />Mobile: +91 - 9266381188<br />asiapacific@Placd.com<br />africa@Placd.com</p></section>
+        <section><p className="leading-7 text-slate-300">Middle East & others:<br />Mobile: +91 - 9818317555<br />middleeast@Placd.com</p></section>
       </div>
       <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 border-t border-slate-800 px-4 py-8">
-        <button className="flex items-center gap-2" onClick={() => goEmployer("overview")}><span className="grid h-9 w-9 place-items-center rounded-xl bg-white font-black text-teal-800">JP</span><span className="text-2xl font-black">JobPortal</span></button>
-        <span className="text-slate-300">© 2026 JobPortal Recruiting. All Rights Reserved</span>
+        <button className="flex items-center gap-2" onClick={() => goEmployer("overview")}><span className="grid h-9 w-9 place-items-center rounded-xl bg-white font-black text-teal-800">P</span><span className="text-2xl font-black">Placd</span></button>
+        <span className="text-slate-300">© 2026 Placd Recruiting. All Rights Reserved</span>
         <div className="flex gap-3"><span className="grid h-8 w-8 place-items-center rounded-full bg-white text-sm font-black text-slate-950">in</span><span className="grid h-8 w-8 place-items-center rounded-full bg-white text-sm font-black text-slate-950">yt</span></div>
       </div>
     </footer>

@@ -1,5 +1,5 @@
 import { Kafka, type Producer } from "kafkajs";
-import type { DomainEvent } from "@jobportal/domain";
+import type { DomainEvent } from "@Placd/domain";
 import type { EventBus } from "./ports.js";
 
 export class KafkaEventBus implements EventBus {
@@ -9,7 +9,7 @@ export class KafkaEventBus implements EventBus {
 
   async publish(topic: string, event: DomainEvent<Record<string, unknown>>): Promise<void> {
     if (!this.producer) {
-      this.producer = new Kafka({ clientId: "jobportal-api-gateway", brokers: this.brokers }).producer();
+      this.producer = new Kafka({ clientId: "Placd-api-gateway", brokers: this.brokers }).producer();
       await this.producer.connect();
     }
 

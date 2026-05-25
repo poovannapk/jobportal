@@ -1,5 +1,5 @@
 {
-  "name": "@jobportal/api-gateway",
+  "name": "@Placd/api-gateway",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -14,8 +14,8 @@
   "dependencies": {
     "@fastify/cors": "^10.0.1",
     "@fastify/rate-limit": "^10.1.0",
-    "@jobportal/domain": "0.1.0",
-    "@jobportal/infrastructure": "0.1.0",
+    "@Placd/domain": "0.1.0",
+    "@Placd/infrastructure": "0.1.0",
     "@opensearch-project/opensearch": "^2.10.0",
     "fastify": "^5.0.0",
     "fastify-plugin": "^5.0.1",

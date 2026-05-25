@@ -1,5 +1,5 @@
 import type { FastifyInstance } from "fastify";
-import { saveCandidateProfileSchema } from "@jobportal/domain";
+import { saveCandidateProfileSchema } from "@Placd/domain";
 import type { AppContainer } from "../../container.js";
 
 export async function registerJobseekerProfileRoutes(fastify: FastifyInstance, container: AppContainer): Promise<void> {

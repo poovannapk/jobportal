@@ -1,5 +1,5 @@
 import { Pool } from "pg";
-import type { CreateRecruiterJobRequest } from "@jobportal/domain";
+import type { CreateRecruiterJobRequest } from "@Placd/domain";
 import type { CreatedJob, JobRepository } from "./ports.js";
 
 export class PostgresJobRepository implements JobRepository {

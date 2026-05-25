@@ -1,5 +1,5 @@
 import type { FastifyInstance } from "fastify";
-import { resdexSearchSchema } from "@jobportal/domain";
+import { resdexSearchSchema } from "@Placd/domain";
 import type { AppContainer } from "../../container.js";
 
 export async function registerResdexRoutes(fastify: FastifyInstance, container: AppContainer): Promise<void> {

@@ -17,7 +17,7 @@ import {
   type CandidateProfileRepository,
   type EventBus,
   type JobRepository
-} from "@jobportal/infrastructure";
+} from "@Placd/infrastructure";
 import type { AppConfig } from "./config.js";
 
 export type AppContainer = {

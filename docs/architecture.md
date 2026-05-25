@@ -35,7 +35,7 @@
 3. Service publishes `job.application.submitted` to `job-application-events`.
 4. `backend/workers/ats-sync-worker` consumes the event.
 5. Worker transforms the candidate/application payload into the configured ATS JSON contract.
-6. Worker sends an idempotent webhook request with `x-jobportal-event-id`.
+6. Worker sends an idempotent webhook request with `x-Placd-event-id`.
 7. On success, the application row should be updated with Workday application identifiers.
 8. On failure, Kafka retry/DLQ policy should preserve the event for replay and support exponential backoff.
 

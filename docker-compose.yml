@@ -2,9 +2,9 @@ services:
   postgres:
     image: postgres:16
     environment:
-      POSTGRES_USER: jobportal
-      POSTGRES_PASSWORD: jobportal
-      POSTGRES_DB: jobportal
+      POSTGRES_USER: Placd
+      POSTGRES_PASSWORD: Placd
+      POSTGRES_DB: Placd
     ports:
       - "5432:5432"
     volumes:
@@ -39,7 +39,7 @@ services:
     environment:
       discovery.type: single-node
       plugins.security.disabled: "true"
-      OPENSEARCH_INITIAL_ADMIN_PASSWORD: "Jobportal@12345"
+      OPENSEARCH_INITIAL_ADMIN_PASSWORD: "Placd@12345"
     ports:
       - "9200:9200"
 
